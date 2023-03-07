@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
 
+permissions: read-all
+
 env:
   APPLY_FIXES: all
   APPLY_FIXES_EVENT: pull_request
@@ -17,6 +19,9 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -27,7 +32,7 @@ jobs:
 
       - name: Lint
         id: ml
-        uses: oxsecurity/megalinter/flavors/documentation@v6.19.0
+        uses: oxsecurity/megalinter/flavors/documentation@v6.20.0
         env:
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
